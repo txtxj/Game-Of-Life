@@ -5,6 +5,6 @@ find_package(OpenCV REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(LiveGame main.cpp)
+add_executable(GameOfLife main.cpp)
 
-target_link_libraries(LiveGame ${OpenCV_LIBRARIES})
+target_link_libraries(GameOfLife ${OpenCV_LIBRARIES})

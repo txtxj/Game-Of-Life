@@ -144,9 +144,9 @@ int main()
 
 	cv::Mat window = cv::Mat(rows * coef, cols * coef, CV_8UC3, cv::Scalar(0));
 	cv::cvtColor(window, window, cv::COLOR_BGR2RGB);
-	cv::namedWindow("Life Game", cv::WINDOW_AUTOSIZE);
+	cv::namedWindow("GameOfLife", cv::WINDOW_AUTOSIZE);
 
-	cv::setMouseCallback("Life Game", mouse_handler, nullptr);
+	cv::setMouseCallback("GameOfLife", mouse_handler, nullptr);
 
 //	randomize(lives[0], 0.1f);
 
@@ -154,7 +154,7 @@ int main()
 	while (key != 27)
 	{
 		show_in_window(lives[t & 1], window);
-		cv::imshow("Life Game", window);
+		cv::imshow("GameOfLife", window);
 		do
 		{
 			while (!click_buffer.empty())
@@ -166,7 +166,7 @@ int main()
 				lives[t & 1][x * cols + y] = true;
 			}
 			show_in_window(lives[t & 1], window);
-			cv::imshow("Life Game", window);
+			cv::imshow("GameOfLife", window);
 			key = cv::waitKey(20);
 		} while (key != 13 && key != 27);
 		next_window(lives[t & 1], lives[1 - (t & 1)]);
