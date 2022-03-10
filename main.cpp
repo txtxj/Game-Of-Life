@@ -8,6 +8,8 @@ constexpr int cols = 70;
 
 constexpr int coef = 10;
 
+int survive, birth;
+
 bool* lives[2];
 
 cv::Vec3b fore_color, back_color;
@@ -74,11 +76,11 @@ bool life_rule(bool* table, int x, int y)
 			}
 		}
 	}
-	if (cnt == 2)
+	if (cnt == survive)
 	{
 		return get_value(table, x, y);
 	}
-	else if (cnt == 3)
+	else if (cnt == birth)
 	{
 		return true;
 	}
@@ -135,6 +137,9 @@ void initial()
 
 	fore_color = cv::Vec3b(0, 181, 248);
 	back_color = cv::Vec3b(0, 0, 0);
+
+	survive = 2;
+	birth = 3;
 }
 
 
