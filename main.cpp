@@ -3,12 +3,13 @@
 #include <random>
 #include <vector>
 
-constexpr int rows = 70;
-constexpr int cols = 70;
+constexpr int rows = 60;
+constexpr int cols = 80;
 
 constexpr int coef = 10;
 
-int survive, birth;
+std::string rule = "B3S23";
+int survive = 0, birth = 0;
 
 bool* lives[2];
 
@@ -44,12 +45,6 @@ void randomize(bool* table, float probability)
 }
 
 
-void example()
-{
-
-}
-
-
 bool get_value(const bool* p, int x, int y)
 {
 	if (0 <= x && x < rows && 0 <= y && y < cols)
@@ -76,13 +71,14 @@ bool life_rule(bool* table, int x, int y)
 			}
 		}
 	}
-	if (cnt == survive)
-	{
-		return get_value(table, x, y);
-	}
-	else if (cnt == birth)
+	// cnt is unsigned
+	if ((1 << cnt) & birth)
 	{
 		return true;
+	}
+	else if ((1 << cnt) & survive)
+	{
+		return get_value(table, x, y);
 	}
 	else
 	{
@@ -138,14 +134,37 @@ void initial()
 	fore_color = cv::Vec3b(0, 181, 248);
 	back_color = cv::Vec3b(0, 0, 0);
 
-	survive = 2;
-	birth = 3;
+	bool flag_b = false;
+	bool flag_s = false;
+	for (auto c : rule)
+	{
+		if (flag_b && std::isdigit(c))
+		{
+			birth |= 1 << ((c ^ 48));
+		}
+		else if (flag_s && std::isdigit(c))
+		{
+			survive |= 1 << ((c ^ 48));
+		}
+		else if (c == 'B')
+		{
+			flag_b = true;
+			flag_s = false;
+		}
+		else if (c == 'S')
+		{
+			flag_s = true;
+			flag_b = false;
+		}
+	}
 }
 
 
 int main()
 {
 	initial();
+
+	std::cout << birth << " " << survive << std::endl;
 
 	cv::Mat window = cv::Mat(rows * coef, cols * coef, CV_8UC3, cv::Scalar(0));
 	cv::cvtColor(window, window, cv::COLOR_BGR2RGB);
@@ -168,7 +187,7 @@ int main()
 				click_buffer.erase(click_buffer.begin());
 				int y = p.x / 10;
 				int x = p.y / 10;
-				lives[t & 1][x * cols + y] = true;
+				lives[t & 1][x * cols + y] ^= 1;
 			}
 			show_in_window(lives[t & 1], window);
 			cv::imshow("GameOfLife", window);
