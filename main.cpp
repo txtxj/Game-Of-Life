@@ -175,6 +175,7 @@ int main()
 //	randomize(lives[0], 0.1f);
 
 	int key = -1, t = 0;
+	bool flag_continue = false;
 	while (key != 27)
 	{
 		show_in_window(lives[t & 1], window);
@@ -192,7 +193,11 @@ int main()
 			show_in_window(lives[t & 1], window);
 			cv::imshow("GameOfLife", window);
 			key = cv::waitKey(20);
-		} while (key != 13 && key != 27);
+			if (key == 32)
+			{
+				flag_continue ^= 1;
+			}
+		} while (key != 13 && key != 27 && !flag_continue);
 		next_window(lives[t & 1], lives[1 - (t & 1)]);
 		t++;
 	}
