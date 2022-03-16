@@ -23,7 +23,7 @@ void mouse_handler(int event, int x, int y, int flags, void *userdata)
 	if (event == cv::EVENT_LBUTTONDOWN)
 	{
 		std::cout << "Left button of the mouse is clicked - position (" << x << ", "
-				  << y << ")" << '\n';
+				  << y << ")" << std::endl;
 		click_buffer.emplace_back(x, y);
 	}
 }
@@ -47,14 +47,15 @@ void randomize(bool* table, float probability)
 
 bool get_value(const bool* p, int x, int y)
 {
-	if (0 <= x && x < rows && 0 <= y && y < cols)
-	{
-		return p[x * cols + y];
-	}
-	else
-	{
-		return false;
-	}
+//	if (0 <= x && x < rows && 0 <= y && y < cols)
+//	{
+//		return p[x * cols + y];
+//	}
+//	else
+//	{
+//		return false;
+//	}
+	return p[((x + rows) % rows) * cols + ((y + cols) % cols)];
 }
 
 
