@@ -6,6 +6,8 @@
 constexpr int rows = 60;
 constexpr int cols = 80;
 
+constexpr float pr = 0.1f;
+
 constexpr int coef = 10;
 
 std::string rule = "B3S23";
